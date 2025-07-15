@@ -60,5 +60,11 @@ gem "devise", "~> 4.9"
 
 # For dotenv-rails >> To save confidential information on a different file and prevent it to be uploaded in the github
 group :development, :test do
-  gem 'dotenv-rails'
+  gem "dotenv-rails"
 end
+
+gem "tailwindcss-ruby", "~> 4.1"
+
+gem "tailwindcss-rails", "~> 4.3"
+
+gem "rubocop", require: false

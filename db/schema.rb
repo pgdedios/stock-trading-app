@@ -10,9 +10,34 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_07_12_153142) do
+ActiveRecord::Schema[7.2].define(version: 2025_07_15_101415) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "portfolios", force: :cascade do |t|
+    t.string "company_name", null: false
+    t.string "stock_symbol", null: false
+    t.integer "quantity", null: false
+    t.decimal "current_price", precision: 15, scale: 2, null: false
+    t.decimal "total_amount", precision: 15, scale: 2, null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_portfolios_on_user_id"
+  end
+
+  create_table "transactions", force: :cascade do |t|
+    t.string "company_name", null: false
+    t.string "stock_symbol", null: false
+    t.string "transaction_type", null: false
+    t.integer "quantity", null: false
+    t.decimal "price_at_time", precision: 15, scale: 2, null: false
+    t.decimal "total_amount", precision: 15, scale: 2, null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_transactions_on_user_id"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -24,12 +49,14 @@ ActiveRecord::Schema[7.2].define(version: 2025_07_12_153142) do
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
     t.string "unconfirmed_email"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
     t.string "first_name", default: "", null: false
     t.string "last_name", default: ""
+    t.decimal "balance", precision: 15, scale: 2, default: "0.0"
     t.boolean "is_admin", default: false
     t.boolean "is_approve", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["balance"], name: "index_users_on_balance", unique: true
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["first_name"], name: "index_users_on_first_name", unique: true
@@ -38,4 +65,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_07_12_153142) do
     t.index ["last_name"], name: "index_users_on_last_name", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
+
+  add_foreign_key "portfolios", "users"
+  add_foreign_key "transactions", "users"
 end

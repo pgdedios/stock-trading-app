@@ -1,4 +1,16 @@
 Rails.application.routes.draw do
+  get "portfolios/index"
+  get "portfolios/new"
+  get "portfolios/create"
+  get "portfolios/show"
+  get "portfolios/update"
+  get "portfolios/destroy"
+  get "transactions/index"
+  get "transactions/new"
+  get "transactions/create"
+  get "transactions/show"
+  get "transactions/update"
+  get "transactions/destroy"
   get "pages/unconfirmed"
   get "pages/pending_approval"
   devise_for :users
@@ -13,10 +25,12 @@ Rails.application.routes.draw do
   get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
 
   # Defines the root path route ("/")
-  root 'pages#index'
+  root "pages#index"
 
   get "/dashboard", to: "pages#index"
-  get '/unconfirmed', to: 'pages#unconfirmed'
-  get '/pending_approval', to: 'pages#pending_approval'
+  get "/unconfirmed", to: "pages#unconfirmed"
+  get "/pending_approval", to: "pages#pending_approval"
 
+  resources :transactions
+  resources :portfolios
 end
