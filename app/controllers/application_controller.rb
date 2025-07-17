@@ -6,6 +6,7 @@ class ApplicationController < ActionController::Base
 
   protected
 
+  # To allow additional parameters in devise.
   def configure_permitted_parameters
     devise_parameter_sanitizer.permit(:sign_up, keys: [ :first_name, :last_name, :is_admin, :is_approve ])
   end

@@ -1,5 +1,9 @@
 <h1 class="text-gray-500 dark:text-gray-400">Dashboard</h1>
 
+<h2>Symbol: <%= @symbol %></h2>
+<br>
+<h2>Stock Price: <%= @stock_price %></h2>
+
 <div>
   <%= link_to "Logout", destroy_user_session_path, 
               data: { turbo_method: :delete, turbo_confirm: "Are you sure?" },

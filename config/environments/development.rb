@@ -86,8 +86,8 @@ Rails.application.configure do
     address:              "smtp.google.com",
     port:                 587,
     domain:               "google.com",
-    user_name:            "stocktradingapp.avion39@gmail.com", # your Gmail address
-    password:             "vfje zhub rxcm ysht", # app password or Gmail password
+    user_name:            ENV["GMAIL_USERNAME"], # your Gmail address
+    password:             ENV["GMAIL_PASSWORD"], # app password or Gmail password
     authentication:       "plain",
     enable_starttls_auto: true,
     open_timeout:         5,
