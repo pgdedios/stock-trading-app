@@ -1,11 +1,6 @@
-<h1 class="text-gray-500 dark:text-gray-400">Dashboard</h1>
+<%= render "navbar" %>
 
-<h2>Symbol: <%= @symbol %></h2>
-<br>
-<h2>Stock Price: <%= @stock_price %></h2>
+<h1 class="text-2xl text-gray-500 dark:text-gray-400">Dashboard</h1>
 
-<div>
-  <%= link_to "Logout", destroy_user_session_path, 
-              data: { turbo_method: :delete, turbo_confirm: "Are you sure?" },
-              class: "text-teal-800 italic font-bold"%>
-</div>
+<h2>Balance: <%= number_to_currency(current_user.balance) %></h2>
+

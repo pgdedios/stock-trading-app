@@ -1,0 +1,99 @@
+<%= render "pages/navbar" %>
+
+
+<div class="min-h-[80vh] flex items-center justify-center bg-gray-50 px-4">
+  <div class="w-full max-w-xl bg-white p-6 rounded-lg shadow-md">
+    <h1 class="text-2xl font-bold mb-6 text-center">Sell Stock</h1>
+    <%= form_with model: @transaction, url: transactions_path, local: true, data: { controller: "stock" } do |form| %>
+      <div class="space-y-4">
+
+        <!--Error Messages-->
+        <% if @transaction.errors.any? %>
+          <div class="mb-6 rounded-md border border-red-300 bg-red-50 p-4">
+            <h2 class="text-red-700 font-semibold mb-2">Please fix the following errors:</h2>
+            <ul class="list-disc list-inside text-red-600 text-sm space-y-1">
+              <% @transaction.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
+
+        <!-- Company Select -->
+        <div>
+          <%= form.label :company_name, "Select Company", class: "block text-sm font-medium text-gray-700" %>
+          <%= select_tag :company_select,
+            options_for_select([["", ""]] + @companies.map { |c| ["#{c["company_name"]} (#{c["stock_symbol"]})", c.to_json] }),
+            data: {
+              action: "change->stock#fetchPrice",
+              stock_target: "company"
+            },
+            class: "company-select mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+          %>
+        </div>
+
+        <!-- Hidden Fields -->
+        <%= form.hidden_field :company_name, data: { stock_target: "companyName" } %>
+        <%= form.hidden_field :stock_symbol, data: { stock_target: "ticker" } %>
+        <%= form.hidden_field :transaction_type, value: "sell" %>
+
+        <!-- Stock Price -->
+        <div>
+          <%= form.label :price_at_time, "Stock Price", class: "block text-sm font-medium text-gray-700" %>
+          <div class="flex items-center mt-1">
+            <span class="px-3 py-2 bg-gray-100 border border-r-0 border-gray-300 rounded-l-md text-gray-700">$</span>
+            <%= form.number_field :price_at_time, step: 0.01, readonly: true,
+              data: { stock_target: "stockPrice" },
+              class: "block w-full rounded-r-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+            %>
+          </div>
+        </div>
+
+
+        <!-- Quantity -->
+        <div>
+          <%= form.label :quantity, "Quantity", class: "block text-sm font-medium text-gray-700" %>
+          <%= form.number_field :quantity,
+            data: { action: "input->stock#calculateTotal", stock_target: "quantity" },
+            class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+          %>
+        </div>
+
+        <!-- Total Price -->
+        <div>
+          <%= form.label :total_amount, "Total Amount", class: "block text-sm font-medium text-gray-700" %>
+          <div class="flex items-center mt-1">
+            <span class="px-3 py-2 bg-gray-100 border border-r-0 border-gray-300 rounded-l-md text-gray-700">$</span>
+            <%= form.number_field :total_amount, step: 0.01, readonly: true,
+              data: { stock_target: "totalAmount" },
+              class: "block w-full rounded-r-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+            %>
+          </div>
+        </div>
+
+
+        <!-- Submit Button -->
+        <div>
+          <%= form.submit "Sell Stock", class: "w-full inline-flex justify-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" %>
+        </div>
+
+      </div>
+    <% end %>
+  </div>
+</div>
+
+
+<!-- Select2 Assets -->
+<%#= javascript_include_tag "https://code.jquery.com/jquery-3.6.0.min.js" %>
+<%#= stylesheet_link_tag "https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" %>
+<%#= javascript_include_tag "https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js" %>
+<!--
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    $('.company-select').select2({
+      placeholder: "Search for a company or ticker",
+      allowClear: true,
+      width: '100%'
+    });
+  });
+</script>-->
