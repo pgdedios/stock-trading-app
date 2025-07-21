@@ -1,8 +1,8 @@
 {
   "fields": [
     "cik",
-    "name",
-    "ticker",
+    "company_name",
+    "stock_symbol",
     "exchange"
   ],
   "data": [

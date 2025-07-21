@@ -18,13 +18,8 @@
     <%= javascript_importmap_tags %>
   </head>
 
-  <body>
-    <div>
-      <p class="notice"><%= notice %></p>
-    </div>
-    <div>
-      <p class="alert"><%= alert %></p>
-    <div>
+  <body class="relative">
+    <%= render 'shared/flash' %>
     <%= yield %>
   </body>
 </html>

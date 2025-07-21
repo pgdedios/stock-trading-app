@@ -1,18 +1,4 @@
 Rails.application.routes.draw do
-  get "portfolios/index"
-  get "portfolios/new"
-  get "portfolios/create"
-  get "portfolios/show"
-  get "portfolios/update"
-  get "portfolios/destroy"
-  get "transactions/index"
-  get "transactions/new"
-  get "transactions/create"
-  get "transactions/show"
-  get "transactions/update"
-  get "transactions/destroy"
-  get "pages/unconfirmed"
-  get "pages/pending_approval"
   devise_for :users
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
@@ -30,7 +16,13 @@ Rails.application.routes.draw do
   get "/dashboard", to: "pages#index"
   get "/unconfirmed", to: "pages#unconfirmed"
   get "/pending_approval", to: "pages#pending_approval"
+  get "/transactions/buy", to: "transactions#buy"
+  get "/transactions/sell", to: "transactions#sell"
 
-  resources :transactions
   resources :portfolios
+  resources :transactions do
+    collection do
+      get :fetch_price
+    end
+  end
 end

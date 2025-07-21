@@ -5,6 +5,9 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable,
          :confirmable
 
+  has_many :transactions
+  has_many :portfolios
+
   def active_for_authentication?
     super && is_approve?
   end
