@@ -5,6 +5,8 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable,
          :confirmable
 
+  attribute :balance, default: 50000
+
   has_many :transactions
   has_many :portfolios
 

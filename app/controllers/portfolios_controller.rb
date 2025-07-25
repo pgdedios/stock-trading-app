@@ -4,18 +4,7 @@ class PortfoliosController < ApplicationController
     @portfolios = Portfolio.where(user_id: current_user.id)
   end
 
-  def new
-  end
-
-  def create
-  end
-
   def show
-  end
-
-  def update
-  end
-
-  def destroy
+    @portfolio = current_user.portfolios.find(params[:id])
   end
 end

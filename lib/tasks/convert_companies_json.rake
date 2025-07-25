@@ -1,4 +1,4 @@
-require 'json'
+require "json"
 
 namespace :companies do
   desc "Convert companies.json to list of hashes and save as formatted_companies.json"

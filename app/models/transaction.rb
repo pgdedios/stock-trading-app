@@ -21,9 +21,7 @@ class Transaction < ApplicationRecord
     end
   rescue => e
     Rails.logger.error("Transaction processing failed: #{e.message}")
-    # Optionally, you can add error tracking or notifications here
-    # e.g., Sentry.capture_exception(e)
-    errors.add(:base, "Transaction failed: #{e.message}")
+    errors.add(:base, "#{e.message}")
     raise ActiveRecord::Rollback
   end
 
@@ -43,15 +41,18 @@ class Transaction < ApplicationRecord
   end
 
   def update_portfolio_for_buy
-    portfolio = user.portfolios.find_or_initialize_by(stock_symbol: stock_symbol)
-    portfolio.assign_attributes(
-      company_name: company_name,
-      quantity: (portfolio.quantity || 0) + quantity,
-      total_amount: (portfolio.total_amount || 0) + total_amount,
-      current_price: price_at_time
-    )
+    portfolio = user.portfolios.find_by(stock_symbol: stock_symbol)
+    if portfolio.nil?
+      portfolio = user.portfolios.new(stock_symbol: stock_symbol)
+    end
+
+    portfolio.company_name = company_name
+    portfolio.quantity = (portfolio.quantity || 0) + quantity
+    portfolio.total_amount = (portfolio.total_amount || 0) + total_amount
+    portfolio.current_price = price_at_time
     portfolio.save!
   end
+
   def update_portfolio_for_sell(portfolio)
     portfolio.quantity -= quantity
     portfolio.total_amount -= total_amount

@@ -25,14 +25,13 @@ class TransactionsController < ApplicationController
     end
   end
 
-
   def create
     @transaction = current_user.transactions.build(transaction_params)
 
     if @transaction.save
       redirect_to transactions_path, notice: "Transaction completed!"
     else
-      flash[:alert] = @transaction.errors.full_messages.to_sentence
+      flash[:alert] = "Transaction failed."
       if transaction_params[:transaction_type] == "buy"
         @companies = JSON.parse(File.read(Rails.root.join("lib/assets/data/companies.json")))
         render :buy, status: :unprocessable_entity
@@ -41,6 +40,10 @@ class TransactionsController < ApplicationController
         render :sell, status: :unprocessable_entity
       end
     end
+  end
+
+  def show
+    @transaction = current_user.transactions.find(params[:id])
   end
 
   private

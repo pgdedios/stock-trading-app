@@ -1,4 +1,4 @@
-<%= render "pages/navbar" %>
+<%= render "shared/navbar" %>
 
 <div class="min-h-screen flex flex-col items-center justify-start bg-gray-50 py-10 px-4">
   <h1 class="font-bold text-4xl mb-6">Transactions</h1>
@@ -30,13 +30,13 @@
           <% else %>
             <% @transactions.each do |transaction| %>
               <tr class="hover:bg-gray-100">
-                <td class="border border-gray-300 px-4 py-2"><%= transaction.company_name %></td>
-                <td class="border border-gray-300 px-4 py-2"><%= transaction.stock_symbol %></td>
-                <td class="border border-gray-300 px-4 py-2 capitalize"><%= transaction.transaction_type %></td>
-                <td class="border border-gray-300 px-4 py-2"><%= transaction.quantity %></td>
-                <td class="border border-gray-300 px-4 py-2"><%= number_to_currency(transaction.price_at_time) %></td>
-                <td class="border border-gray-300 px-4 py-2"><%= number_to_currency(transaction.total_amount) %></td>
-                <td class="border border-gray-300 px-4 py-2"><%= transaction.created_at.strftime("%d %b %Y, %I:%M %P") %></td>
+                <td class="border border-gray-300 px-4 py-2"><%= link_to transaction.company_name, transaction_path(transaction), title: "See transaction details." %></td>
+                <td class="border border-gray-300 px-4 py-2"><%= link_to transaction.stock_symbol, transaction_path(transaction), title: "See transaction details." %></td>
+                <td class="border border-gray-300 px-4 py-2 capitalize"><%= link_to transaction.transaction_type, transaction_path(transaction), title: "See transaction details." %></td>
+                <td class="border border-gray-300 px-4 py-2"><%= link_to transaction.quantity, transaction_path(transaction), title: "See transaction details." %></td>
+                <td class="border border-gray-300 px-4 py-2"><%= link_to number_to_currency(transaction.price_at_time), transaction_path(transaction), title: "See transaction details." %></td>
+                <td class="border border-gray-300 px-4 py-2"><%= link_to number_to_currency(transaction.total_amount), transaction_path(transaction), title: "See transaction details." %></td>
+                <td class="border border-gray-300 px-4 py-2"><%= link_to transaction.created_at.localtime.strftime("%d %b %Y, %I:%M %P"), transaction_path(transaction), title: "See transaction details." %></td>
               </tr>
             <% end %>
           <% end %>
