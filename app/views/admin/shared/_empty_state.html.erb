@@ -1,0 +1,13 @@
+<div class="text-center py-12">
+  <svg class="mx-auto h-24 w-24 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+  </svg>
+  <h3 class="mt-4 text-lg font-medium text-gray-900"><%= title %></h3>
+  <p class="mt-2 text-gray-600"><%= message %></p>
+  <% if action_text && action_path %>
+    <div class="mt-6">
+      <%= link_to action_text, action_path, 
+          class: "inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700" %>
+    </div>
+  <% end %>
+</div>

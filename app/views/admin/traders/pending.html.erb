@@ -1,0 +1,17 @@
+<%= render 'admin/shared/page_header', 
+    title: 'Pending Trader Approvals', 
+    subtitle: 'Review and approve new trader registrations' %>
+
+<% if @pending_traders.any? %>
+  <div class="grid gap-6">
+    <% @pending_traders.each do |trader| %>
+      <%= render 'pending_trader_card', trader: trader %>
+    <% end %>
+  </div>
+<% else %>
+  <%= render 'admin/shared/empty_state', 
+      title: 'All caught up!',
+      message: 'There are no pending trader approvals at this time.',
+      action_text: 'View All Traders',
+      action_path: admin_traders_path %>
+<% end %>

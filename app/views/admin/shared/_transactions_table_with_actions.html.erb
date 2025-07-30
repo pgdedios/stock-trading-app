@@ -1,0 +1,58 @@
+<div class="overflow-x-auto">
+  <table class="min-w-full divide-y divide-gray-200">
+    <thead class="bg-gray-50">
+      <tr>
+        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Trader</th>
+        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Stock</th>
+        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type</th>
+        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Quantity</th>
+        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Price</th>
+        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total</th>
+        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+        <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+      </tr>
+    </thead>
+    <tbody class="bg-white divide-y divide-gray-200">
+      <% if transactions.any? %>
+        <% transactions.each do |transaction| %>
+          <tr class="hover:bg-gray-50">
+            <td class="px-6 py-4 whitespace-nowrap">
+              <%= render 'admin/shared/trader_info', trader: transaction.user %>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap">
+              <div>
+                <p class="text-sm font-medium text-gray-900"><%= transaction.stock_symbol %></p>
+                <p class="text-xs text-gray-500"><%= transaction.company_name %></p>
+              </div>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap">
+              <%= render 'admin/shared/transaction_badge', transaction: transaction %>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+              <%= transaction.quantity %>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+              $<%= number_with_precision(transaction.price_at_time, precision: 2) %>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+              $<%= number_with_precision(transaction.total_amount, precision: 2) %>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+              <%= transaction.created_at.strftime("%m/%d/%Y %I:%M %p") %>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+              <%= link_to "View", admin_transaction_path(transaction), 
+                  class: "text-blue-600 hover:text-blue-900" %>
+            </td>
+          </tr>
+        <% end %>
+      <% else %>
+        <tr>
+          <td colspan="8" class="px-6 py-4 text-center text-gray-500">
+            No transactions found
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
