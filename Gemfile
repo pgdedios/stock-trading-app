@@ -76,5 +76,5 @@ group :development, :test do
 end
 
 group :development, :test do
-  gem 'letter_opener', '~> 1.10'
+  gem "letter_opener", "~> 1.10"
 end

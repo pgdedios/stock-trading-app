@@ -55,7 +55,7 @@ class Admin::TradersController < Admin::ApplicationController
   def approve
     if @trader.update(is_approve: true)
       @trader.send_approval_notification
-      redirect_back(fallback_location: admin_traders_path, notice: 'Trader has been approved.')
+      redirect_back(fallback_location: admin_traders_path, notice: "Trader has been approved.")
     else
       redirect_back(fallback_location: admin_traders_path, alert: "Failed to approve trader.")
     end
@@ -64,7 +64,7 @@ class Admin::TradersController < Admin::ApplicationController
   def reject
     if @trader.update(is_approve: false)
       @trader.send_rejection_notification
-      redirect_back(fallback_location: admin_traders_path, notice: 'Trader has been rejected.')
+      redirect_back(fallback_location: admin_traders_path, notice: "Trader has been rejected.")
     else
       redirect_back(fallback_location: admin_traders_path, alert: "Failed to reject trader.")
     end

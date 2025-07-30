@@ -40,5 +40,7 @@ Rails.application.routes.draw do
 
     get "/pending_traders", to: "traders#pending", as: :pending_traders
     resources :transactions, only: [ :index, :show ]
+
+    match "*path", to: "dashboard#not_found", via: :all
   end
 end

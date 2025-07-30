@@ -3,6 +3,10 @@ class Admin::DashboardController < Admin::ApplicationController
     @stats = dashboard_stats
   end
 
+  def not_found
+    render template: "admin/errors/not_found", status: 404
+  end
+
   private
 
   def dashboard_stats
