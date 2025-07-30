@@ -2,9 +2,8 @@ class PagesController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    # data = AlphaVantageApi.get_stock_price(params[:symbol])
-    # @symbol = data["Meta Data"].dig("2. Symbol")
-    # @stock_price = data.dig("Time Series (Daily)").values.first.dig("1. open")
+    @portfolios = current_user.portfolios.order(updated_at: :desc).limit(3)
+    @transactions = current_user.transactions.order(created_at: :desc).limit(3)
   end
 
   def unconfirmed

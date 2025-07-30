@@ -1,6 +1,65 @@
-<%= render "shared/navbar" %>
+<div class="min-h-screen bg-gray-100">
+  <!-- Sticky Navbar -->
+  <div class="sticky top-0 z-50 bg-white shadow-md">
+    <%= render "shared/navbar" %>
+  </div>
 
-<h1 class="text-2xl text-gray-500 dark:text-gray-400">Dashboard</h1>
+  <!-- Main Content -->
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <!-- Dashboard Header -->
+    <div class="mb-8">
+      <h1 class="text-3xl font-extrabold text-gray-900">Dashboard</h1>
+    </div>
 
-<h2>Balance: <%= number_to_currency(current_user.balance) %></h2>
+    <!-- Stats Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+      <!-- Balance Card -->
+      <div class="bg-white p-6 rounded-lg shadow">
+        <p class="text-sm font-medium text-gray-600">Balance</p>
+        <p class="mt-2 text-2xl font-bold text-gray-900">
+          <%= number_to_currency(current_user.balance) %>
+        </p>
+      </div>
 
+      <!-- Owned Shares Card -->
+      <div class="bg-white p-6 rounded-lg shadow">
+        <p class="text-sm font-medium text-gray-600">Company with Owned Shares</p>
+        <p class="mt-2 text-2xl font-bold text-gray-900"><%= @portfolios.length %></p>
+        <p class="mt-4">
+          <%= link_to "See all owned shares →", portfolios_path, class: "text-indigo-600 hover:text-indigo-800 text-sm font-medium" %>
+        </p>
+      </div>
+
+      <!-- Transactions Card -->
+      <div class="bg-white p-6 rounded-lg shadow">
+        <p class="text-sm font-medium text-gray-600">Transactions</p>
+        <p class="mt-2 text-2xl font-bold text-gray-900"><%= @transactions.length %></p>
+        <p class="mt-4">
+          <%= link_to "See all transactions →", transactions_path, class: "text-indigo-600 hover:text-indigo-800 text-sm font-medium" %>
+        </p>
+      </div>
+    </div>
+
+    <!-- Recent Transactions -->
+    <div class="mb-8 pb-4 bg-white rounded-lg shadow">
+      <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
+        <h2 class="text-lg font-semibold text-gray-900">Recent Transactions</h2>
+        <%= link_to "View All", transactions_path, class: "text-blue-600 hover:text-blue-800 text-sm font-medium" %>
+      </div>
+      <div class="overflow-x-auto">
+        <%= render "transactions/transactions", locals: { transactions: @transactions } %>
+      </div>
+    </div>
+
+    <!-- Recently Owned Shares -->
+    <div class="mb-8 pb-4 bg-white rounded-lg shadow">
+      <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
+        <h2 class="text-lg font-semibold text-gray-900">Recently Owned Shares</h2>
+        <%= link_to "View All", portfolios_path, class: "text-blue-600 hover:text-blue-800 text-sm font-medium" %>
+      </div>
+      <div class="overflow-x-auto">
+        <%= render "portfolios/portfolios", locals: { portfolios: @portfolios } %>
+      </div>
+    </div>
+  </div>
+</div>

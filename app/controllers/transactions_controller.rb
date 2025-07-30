@@ -29,7 +29,7 @@ class TransactionsController < ApplicationController
     @transaction = current_user.transactions.build(transaction_params)
 
     if @transaction.save
-      redirect_to transactions_path, notice: "Transaction completed!"
+      redirect_to portfolios_path, notice: "Transaction completed!"
     else
       flash[:alert] = "Transaction failed."
       if transaction_params[:transaction_type] == "buy"

@@ -1,7 +1,7 @@
 class PortfoliosController < ApplicationController
   before_action :authenticate_user!
   def index
-    @portfolios = Portfolio.where(user_id: current_user.id)
+    @portfolios = current_user.portfolios.order(updated_at: :desc)
   end
 
   def show
