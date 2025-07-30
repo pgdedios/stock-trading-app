@@ -69,7 +69,7 @@ gem "tailwindcss-rails", "~> 4.3"
 
 gem "rubocop", require: false
 
-gem 'ransack', '~> 4.3'
+gem "ransack", "~> 4.3"
 
 group :development, :test do
   gem "rspec-rails", "~> 8.0.0"

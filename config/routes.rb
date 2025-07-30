@@ -30,15 +30,15 @@ Rails.application.routes.draw do
   namespace :admin do
     root "dashboard#index"
     get "/dashboard", to: "dashboard#index"
-    
+
     resources :traders do
       member do
         patch :approve
         patch :reject
       end
     end
-    
+
     get "/pending_traders", to: "traders#pending", as: :pending_traders
-    resources :transactions, only: [:index, :show]
+    resources :transactions, only: [ :index, :show ]
   end
 end

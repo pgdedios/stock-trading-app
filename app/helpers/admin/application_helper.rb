@@ -15,16 +15,16 @@ module Admin::ApplicationHelper
   # Status helpers
   def trader_status_class(trader)
     if trader.can_trade?
-      'text-green-600'
+      "text-green-600"
     elsif trader.confirmed_at.present?
-      'text-yellow-600'
+      "text-yellow-600"
     else
-      'text-red-600'
+      "text-red-600"
     end
   end
 
   def transaction_type_badge_class(transaction)
-    transaction.buy? ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
+    transaction.buy? ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"
   end
 
   # Number formatting helpers

@@ -1,20 +1,20 @@
 class Admin::TransactionsController < Admin::ApplicationController
-  before_action :set_transaction, only: [:show]
-  
+  before_action :set_transaction, only: [ :show ]
+
   # Admin Story 7: See all transactions
   def index
     @q = Transaction.for_traders.ransack(params[:q])
     @transactions = @q.result.recent.includes(:user)
-    
+
     @stats = transaction_stats
   end
-  
+
   def show
     @trader = @transaction.user
   end
-  
+
   private
-  
+
   def set_transaction
     @transaction = Transaction.for_traders.find(params[:id])
   end

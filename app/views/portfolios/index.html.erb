@@ -5,38 +5,7 @@
   <br>
   <div class="w-full max-w-6xl bg-white p-6 rounded-lg shadow-md">
     <div class="overflow-y-auto max-h-96">
-      <table class="table-auto mx-auto border-collapse border border-gray-400 w-full">
-        <thead class="text-left sticky top-0 z-10">
-          <tr class="bg-gray-200">
-            <th class="border border-gray-300 px-4 py-2">Company Name</th>
-            <th class="border border-gray-300 px-4 py-2">Symbol</th>
-            <th class="border border-gray-300 px-4 py-2">Quantity</th>
-            <th class="border border-gray-300 px-4 py-2">Price</th>
-            <th class="border border-gray-300 px-4 py-2">Total</th>
-            <th class="border border-gray-300 px-4 py-2">Updated</th>
-          </tr>
-        </thead>
-        <% if @portfolios.length == 0 %>
-          <tbody>
-            <tr>
-              <td colspan="5" class="border border-gray-300 px-4 py-2 text-center">No available data.</td>
-            </tr>
-          </tbody>
-        <% else %>
-          <tbody>
-            <% @portfolios.each do |portfolio| %>
-              <tr>
-                <td class="border border-gray-300 px-4 py-2"><%= link_to portfolio.company_name, portfolio_path(portfolio), title: "See shares details." %></td>
-                <td class="border border-gray-300 px-4 py-2"><%= link_to portfolio.stock_symbol, portfolio_path(portfolio), title: "See shares details." %></td>
-                <td class="border border-gray-300 px-4 py-2"><%= link_to portfolio.quantity, portfolio_path(portfolio), title: "See shares details." %></td>
-                <td class="border border-gray-300 px-4 py-2"><%= link_to number_to_currency(portfolio.current_price), portfolio_path(portfolio), title: "See shares details." %></td>
-                <td class="border border-gray-300 px-4 py-2"><%= link_to number_to_currency(portfolio.total_amount), portfolio_path(portfolio), title: "See shares details." %></td>
-                <td class="border border-gray-300 px-4 py-2"><%= link_to "#{time_ago_in_words(portfolio.updated_at.localtime)} ago", portfolio_path(portfolio), title: "See shares details." %></td>
-              </tr>
-            <% end %>
-          </tbody>
-        <% end %>
-      </table>
+      <%= render "portfolios" %>
     </div>
   </div>
 </div>

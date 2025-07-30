@@ -1,47 +1,26 @@
-<%= render "shared/navbar" %>
-
-<div class="min-h-screen flex flex-col items-center justify-start bg-gray-50 py-10 px-4">
-  <h1 class="font-bold text-4xl mb-6">Transactions</h1>
-
-  <div class="space-x-4 mb-6">
-    <%= link_to 'Buy Stocks', transactions_buy_path, class: "bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700" %>
-    <%= link_to 'Sell Stocks', transactions_sell_path, class: "bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700" %>
+<div class="min-h-screen bg-gray-50">
+  <!-- Sticky Navbar -->
+  <div class="sticky top-0 z-50 bg-white shadow-md">
+    <%= render "shared/navbar" %>
   </div>
 
-  <div class="w-full max-w-6xl bg-white p-6 rounded-lg shadow-md overflow-x-auto">
-    <div class="overflow-y-auto max-h-96">
-      <table class="table-auto w-full border-collapse border border-gray-300 w-full">
-        <thead class="bg-gray-200 text-left sticky top-0 z-10">
-          <tr>
-            <th class="border border-gray-300 px-4 py-2 bg-gray-200">Company Name</th>
-            <th class="border border-gray-300 px-4 py-2 bg-gray-200">Symbol</th>
-            <th class="border border-gray-300 px-4 py-2 bg-gray-200">Transaction Type</th>
-            <th class="border border-gray-300 px-4 py-2 bg-gray-200">Quantity</th>
-            <th class="border border-gray-300 px-4 py-2 bg-gray-200">Price</th>
-            <th class="border border-gray-300 px-4 py-2 bg-gray-200">Total</th>
-            <th class="border border-gray-300 px-4 py-2 bg-gray-200">Date</th>
-          </tr>
-        </thead>
-        <tbody>
-          <% if @transactions.empty? %>
-            <tr>
-              <td colspan="7" class="border border-gray-300 px-4 py-2 text-center text-gray-500">No available data.</td>
-            </tr>
-          <% else %>
-            <% @transactions.each do |transaction| %>
-              <tr class="hover:bg-gray-100">
-                <td class="border border-gray-300 px-4 py-2"><%= link_to transaction.company_name, transaction_path(transaction), title: "See transaction details." %></td>
-                <td class="border border-gray-300 px-4 py-2"><%= link_to transaction.stock_symbol, transaction_path(transaction), title: "See transaction details." %></td>
-                <td class="border border-gray-300 px-4 py-2 capitalize"><%= link_to transaction.transaction_type, transaction_path(transaction), title: "See transaction details." %></td>
-                <td class="border border-gray-300 px-4 py-2"><%= link_to transaction.quantity, transaction_path(transaction), title: "See transaction details." %></td>
-                <td class="border border-gray-300 px-4 py-2"><%= link_to number_to_currency(transaction.price_at_time), transaction_path(transaction), title: "See transaction details." %></td>
-                <td class="border border-gray-300 px-4 py-2"><%= link_to number_to_currency(transaction.total_amount), transaction_path(transaction), title: "See transaction details." %></td>
-                <td class="border border-gray-300 px-4 py-2"><%= link_to transaction.created_at.localtime.strftime("%d %b %Y, %I:%M %P"), transaction_path(transaction), title: "See transaction details." %></td>
-              </tr>
-            <% end %>
-          <% end %>
-        </tbody>
-      </table>
+  <!-- Main Content -->
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="min-h-screen flex flex-col items-center justify-start bg-gray-50 py-10 px-4">
+      <h1 class="font-bold text-4xl mb-6">Transactions</h1>
+
+      <!-- Action Buttons -->
+      <div class="space-x-4 mb-6">
+        <%= link_to 'Buy Stocks', transactions_buy_path, class: "bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700" %>
+        <%= link_to 'Sell Stocks', transactions_sell_path, class: "bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700" %>
+      </div>
+
+      <!-- Transactions Table -->
+      <div class="w-full max-w-6xl bg-white p-6 rounded-lg shadow-md overflow-x-auto">
+        <div class="overflow-y-auto max-h-96">
+          <%= render "transactions" %>
+        </div>
+      </div>
     </div>
   </div>
 </div>

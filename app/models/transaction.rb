@@ -5,11 +5,12 @@ class Transaction < ApplicationRecord
 
   validates :company_name, :stock_symbol, :quantity, :price_at_time, :total_amount, presence: true
   validates :quantity, numericality: { greater_than_or_equal_to: 0 }
+  attribute :quantity, default: 0
 
   # Scopes
   scope :for_traders, -> { joins(:user).where(users: { is_admin: false }) }
-  scope :buy_orders, -> { where(transaction_type: 'buy') }
-  scope :sell_orders, -> { where(transaction_type: 'sell') }
+  scope :buy_orders, -> { where(transaction_type: "buy") }
+  scope :sell_orders, -> { where(transaction_type: "sell") }
   scope :recent, -> { order(created_at: :desc) }
   scope :for_stock, ->(symbol) { where(stock_symbol: symbol) }
   scope :for_trader, ->(trader_id) { where(user_id: trader_id) }
@@ -18,25 +19,27 @@ class Transaction < ApplicationRecord
   # Ransack configuration - Define which attributes can be searched
   def self.ransackable_attributes(auth_object = nil)
     # Only allow safe transaction attributes to be searched
-    ["company_name", "stock_symbol", "transaction_type", "quantity", "price_at_time", "total_amount", "created_at", "updated_at", "id", "user_id"]
+    [ "company_name", "stock_symbol", "transaction_type", "quantity", "price_at_time", "total_amount", "created_at", "updated_at", "id", "user_id" ]
   end
 
   def self.ransackable_associations(auth_object = nil)
     # Allow searching through user association (for trader info)
-    ["user"]
+    [ "user" ]
   end
 
   def buy?
-    transaction_type == 'buy'
+    transaction_type == "buy"
   end
 
   def sell?
-    transaction_type == 'sell'
+    transaction_type == "sell"
   end
 
   def profit_indicator
-    buy? ? '+' : '-'
+    buy? ? "+" : "-"
   end
+
+  attribute :quantity, default: 0
 
   private
 

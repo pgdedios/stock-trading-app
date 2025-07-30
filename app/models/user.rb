@@ -21,12 +21,12 @@ class User < ApplicationRecord
   # Ransack configuration - Define which attributes can be searched
   def self.ransackable_attributes(auth_object = nil)
     # Only allow safe attributes to be searched (NO sensitive data)
-    ["first_name", "last_name", "email", "balance", "is_approve", "confirmed_at", "created_at", "updated_at", "id"]
+    [ "first_name", "last_name", "email", "balance", "is_approve", "confirmed_at", "created_at", "updated_at", "id" ]
   end
 
   def self.ransackable_associations(auth_object = nil)
     # Allow searching through associations
-    ["transactions", "portfolios"]
+    [ "transactions", "portfolios" ]
   end
 
   def portfolio_value
@@ -38,19 +38,19 @@ class User < ApplicationRecord
   end
 
   def buy_transactions_count
-    transactions.where(transaction_type: 'buy').count
+    transactions.where(transaction_type: "buy").count
   end
 
   def sell_transactions_count
-    transactions.where(transaction_type: 'sell').count
+    transactions.where(transaction_type: "sell").count
   end
 
   def total_invested
-    transactions.where(transaction_type: 'buy').sum(:total_amount)
+    transactions.where(transaction_type: "buy").sum(:total_amount)
   end
 
   def total_earnings
-    transactions.where(transaction_type: 'sell').sum(:total_amount)
+    transactions.where(transaction_type: "sell").sum(:total_amount)
   end
 
   def net_profit_loss
@@ -62,9 +62,9 @@ class User < ApplicationRecord
   end
 
   def status
-    return 'Ready to Trade' if can_trade?
-    return 'Awaiting Approval' if confirmed_at.present?
-    'Email Not Confirmed'
+    return "Ready to Trade" if can_trade?
+    return "Awaiting Approval" if confirmed_at.present?
+    "Email Not Confirmed"
   end
 
   def full_name_with_email
