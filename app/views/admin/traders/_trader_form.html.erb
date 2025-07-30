@@ -1,0 +1,15 @@
+<div class="bg-white rounded-lg shadow">
+  <div class="px-6 py-4 border-b border-gray-200">
+    <h2 class="text-lg font-semibold text-gray-900">Trader Information</h2>
+  </div>
+  
+  <div class="p-6">
+    <%= form_with model: trader, url: form_url(trader), method: form_method(trader), local: true, class: "space-y-6" do |form| %>
+      <%= render 'admin/shared/form_errors', object: trader %>
+      <%= render 'basic_info_fields', form: form %>
+      <%= render 'password_fields', form: form, trader: trader %>
+      <%= render 'balance_field', form: form, trader: trader %>
+      <%= render 'form_actions', form: form, trader: trader, submit_text: submit_text %>
+    <% end %>
+  </div>
+</div>

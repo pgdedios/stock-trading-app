@@ -1,0 +1,23 @@
+<tr class="hover:bg-gray-50">
+  <td class="px-6 py-4 whitespace-nowrap">
+    <%= render 'admin/shared/trader_info', trader: transaction.user %>
+  </td>
+  <td class="px-6 py-4 whitespace-nowrap">
+    <div>
+      <p class="text-sm font-medium text-gray-900"><%= transaction.stock_symbol %></p>
+      <p class="text-xs text-gray-500"><%= transaction.company_name %></p>
+    </div>
+  </td>
+  <td class="px-6 py-4 whitespace-nowrap">
+    <%= render 'admin/shared/transaction_badge', transaction: transaction %>
+  </td>
+  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+    <%= transaction.quantity %>
+  </td>
+  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+    $<%= number_with_precision(transaction.total_amount, precision: 2) %>
+  </td>
+  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+    <%= transaction.created_at.strftime("%m/%d/%Y %I:%M %p") %>
+  </td>
+</tr>

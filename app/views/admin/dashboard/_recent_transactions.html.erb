@@ -1,0 +1,8 @@
+<div class="bg-white rounded-lg shadow">
+  <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
+    <h2 class="text-lg font-semibold text-gray-900">Recent Transactions</h2>
+    <%= link_to "View All", admin_transactions_path, class: "text-blue-600 hover:text-blue-800 text-sm font-medium" %>
+  </div>
+  
+  <%= render 'admin/shared/transactions_table', transactions: @stats[:recent_transactions] %>
+</div>

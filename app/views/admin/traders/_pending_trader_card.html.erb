@@ -1,0 +1,9 @@
+<div class="bg-white rounded-lg shadow-md border border-gray-200 hover:shadow-lg transition-shadow">
+  <div class="p-6">
+    <div class="flex items-start justify-between">
+      <%= render 'trader_info_section', trader: trader %>
+      <%= render 'trader_actions', trader: trader %>
+    </div>
+    <%= render 'trader_additional_info', trader: trader %>
+  </div>
+</div>

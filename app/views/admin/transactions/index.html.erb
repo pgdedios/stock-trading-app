@@ -1,0 +1,192 @@
+<%= render 'admin/shared/page_header', 
+    title: 'All Transactions', 
+    subtitle: 'Monitor all trading activity across the platform' %>
+
+<!-- Statistics Cards -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+  <div class="bg-white rounded-lg shadow p-6">
+    <div class="flex items-center">
+      <div class="p-2 bg-blue-100 rounded-lg">
+        <svg class="h-6 w-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+        </svg>
+      </div>
+      <div class="ml-4">
+        <p class="text-sm font-medium text-gray-600">Total Transactions</p>
+        <p class="text-2xl font-semibold text-gray-900"><%= @stats[:total_transactions] %></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="bg-white rounded-lg shadow p-6">
+    <div class="flex items-center">
+      <div class="p-2 bg-green-100 rounded-lg">
+        <svg class="h-6 w-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 11l5-5m0 0l5 5m-5-5v12"></path>
+        </svg>
+      </div>
+      <div class="ml-4">
+        <p class="text-sm font-medium text-gray-600">Buy Orders</p>
+        <p class="text-2xl font-semibold text-green-600"><%= @stats[:total_buy_transactions] %></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="bg-white rounded-lg shadow p-6">
+    <div class="flex items-center">
+      <div class="p-2 bg-red-100 rounded-lg">
+        <svg class="h-6 w-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 13l-5 5m0 0l-5-5m5 5V6"></path>
+        </svg>
+      </div>
+      <div class="ml-4">
+        <p class="text-sm font-medium text-gray-600">Sell Orders</p>
+        <p class="text-2xl font-semibold text-red-600"><%= @stats[:total_sell_transactions] %></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="bg-white rounded-lg shadow p-6">
+    <div class="flex items-center">
+      <div class="p-2 bg-purple-100 rounded-lg">
+        <svg class="h-6 w-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"></path>
+        </svg>
+      </div>
+      <div class="ml-4">
+        <p class="text-sm font-medium text-gray-600">Total Volume</p>
+        <p class="text-2xl font-semibold text-gray-900">$<%= number_with_precision(@stats[:total_transaction_value], precision: 2) %></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Ransack Search Form -->
+<div class="bg-white rounded-lg shadow mb-6">
+  <div class="p-6">
+    <%= search_form_for @q, url: admin_transactions_path, local: true, class: "grid grid-cols-1 md:grid-cols-6 gap-4" do |f| %>
+      <!-- Search by stock symbol or company name -->
+      <div>
+        <%= f.search_field :stock_symbol_or_company_name_cont, 
+            placeholder: "Search stock/company...", 
+            class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500" %>
+      </div>
+      
+      <!-- Filter by transaction type -->
+      <div>
+        <%= f.select :transaction_type_eq,
+            options_for_select([
+              ['All Types', ''],
+              ['Buy', 'buy'],
+              ['Sell', 'sell']
+            ], f.object.transaction_type_eq),
+            {},
+            { class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500" } %>
+      </div>
+      
+      <!-- Filter by trader -->
+      <div>
+        <%= f.collection_select :user_id_eq, 
+            User.traders.approved.order(:first_name, :last_name), 
+            :id, 
+            :full_name_with_email,
+            { prompt: 'All Traders' },
+            { class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500" } %>
+      </div>
+      
+      <!-- Date range: Start date -->
+      <div>
+        <%= f.date_field :created_at_gteq, 
+            placeholder: "Start date",
+            class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500" %>
+      </div>
+      
+      <!-- Date range: End date -->
+      <div>
+        <%= f.date_field :created_at_lteq, 
+            placeholder: "End date",
+            class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500" %>
+      </div>
+      
+      <!-- Search and Clear buttons -->
+      <div class="flex space-x-2">
+        <%= f.submit "Search", class: "px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700" %>
+        <%= link_to "Clear", admin_transactions_path, class: "px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400" %>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<!-- Transactions Table with Sorting -->
+<div class="bg-white rounded-lg shadow overflow-hidden">
+  <div class="overflow-x-auto">
+    <table class="min-w-full divide-y divide-gray-200">
+      <thead class="bg-gray-50">
+        <tr>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Trader</th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            <%= sort_link(@q, :stock_symbol, "Stock") %>
+          </th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            <%= sort_link(@q, :transaction_type, "Type") %>
+          </th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            <%= sort_link(@q, :quantity, "Quantity") %>
+          </th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            <%= sort_link(@q, :price_at_time, "Price") %>
+          </th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            <%= sort_link(@q, :total_amount, "Total") %>
+          </th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            <%= sort_link(@q, :created_at, "Date") %>
+          </th>
+          <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+        </tr>
+      </thead>
+      <tbody class="bg-white divide-y divide-gray-200">
+        <% if @transactions.any? %>
+          <% @transactions.each do |transaction| %>
+            <tr class="hover:bg-gray-50">
+              <td class="px-6 py-4 whitespace-nowrap">
+                <%= render 'admin/shared/trader_info', trader: transaction.user %>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div>
+                  <p class="text-sm font-medium text-gray-900"><%= transaction.stock_symbol %></p>
+                  <p class="text-xs text-gray-500"><%= transaction.company_name %></p>
+                </div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <%= render 'admin/shared/transaction_badge', transaction: transaction %>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                <%= transaction.quantity %>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                $<%= number_with_precision(transaction.price_at_time, precision: 2) %>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                $<%= number_with_precision(transaction.total_amount, precision: 2) %>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                <%= transaction.created_at.strftime("%m/%d/%Y %I:%M %p") %>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                <%= link_to "View", admin_transaction_path(transaction), 
+                    class: "text-blue-600 hover:text-blue-900" %>
+              </td>
+            </tr>
+          <% end %>
+        <% else %>
+          <tr>
+            <td colspan="8" class="px-6 py-4 text-center text-gray-500">
+              No transactions found
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
