@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <%= render 'shared/email_styles' %>
+</head>
+<body>
+    <div class="header header-green">
+        <h1>🎉 You're Approved!</h1>
+    </div>
+    
+    <p>Hey <%= @trader.first_name %>!</p>
+    <p>Great news! Your trading account has been approved. You can now buy and sell stocks! 🚀</p>
+    
+    <p style="text-align: center; margin: 30px 0;">
+        <%= link_to "🚀 Start Trading Now", @login_url, class: "button button-green" %>
+    </p>
+    
+    <p>Happy trading!</p>
+</body>
+</html>

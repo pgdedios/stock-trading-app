@@ -74,3 +74,7 @@ gem 'ransack', '~> 4.3'
 group :development, :test do
   gem "rspec-rails", "~> 8.0.0"
 end
+
+group :development, :test do
+  gem 'letter_opener', '~> 1.10'
+end

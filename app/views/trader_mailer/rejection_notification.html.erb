@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <%= render 'shared/email_styles' %>
+</head>
+<body>
+    <div class="header header-red">
+        <h1>📋 Account Update</h1>
+    </div>
+    
+    <p>Hi <%= @trader.first_name %>,</p>
+    <p>Thanks for your interest in our trading platform. Unfortunately, we can't approve your account at this time.</p>
+    <p>If you have questions, feel free to reach out!</p>
+</body>
+</html>

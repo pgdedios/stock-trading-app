@@ -54,6 +54,7 @@ class Admin::TradersController < Admin::ApplicationController
   # Admin Story 6: Approve and Reject Traders
   def approve
     if @trader.update(is_approve: true)
+      @trader.send_approval_notification
       redirect_back(fallback_location: admin_traders_path, notice: 'Trader has been approved.')
     else
       redirect_back(fallback_location: admin_traders_path, alert: 'Failed to approve trader.')
@@ -62,6 +63,7 @@ class Admin::TradersController < Admin::ApplicationController
   
   def reject
     if @trader.update(is_approve: false)
+      @trader.send_rejection_notification
       redirect_back(fallback_location: admin_traders_path, notice: 'Trader has been rejected.')
     else
       redirect_back(fallback_location: admin_traders_path, alert: 'Failed to reject trader.')
@@ -93,9 +95,8 @@ class Admin::TradersController < Admin::ApplicationController
   def build_new_trader
     trader = User.new(trader_params)
     trader.is_admin = false
-    trader.is_approve = true # Auto-approve admin-created traders
-    trader.confirmed_at = Time.current # Auto-confirm admin-created traders
-    trader.skip_confirmation! # Temporary
+    trader.is_approve = true
+    trader.created_by_admin = true
     trader
   end
 

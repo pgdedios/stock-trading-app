@@ -6,7 +6,6 @@ class User < ApplicationRecord
          :confirmable
 
   attribute :balance, default: 50000
-
   has_many :transactions
   has_many :portfolios
 
@@ -70,6 +69,14 @@ class User < ApplicationRecord
 
   def full_name_with_email
     "#{first_name} #{last_name} (#{email})"
+  end
+
+  def send_approval_notification
+    TraderMailer.approval_notification(self).deliver_now
+  end
+
+  def send_rejection_notification
+    TraderMailer.rejection_notification(self).deliver_now
   end
 
   def active_for_authentication?

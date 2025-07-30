@@ -1,5 +1,57 @@
-<p>Welcome <%= @email %>!</p>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <%= render 'shared/email_styles' %>
+</head>
+<body>
+    <% if @resource.created_by_admin %>
+        <div class="header header-green">
+            <h1>🎉 Welcome to Stock Trading!</h1>
+            <span class="badge badge-admin">ADMIN CREATED</span>
+        </div>
+        
+        <p>Hi <%= @resource.first_name %>!</p>
+        <p>An admin created your trading account and it's <strong>already approved</strong>! 🚀</p>
+        <p>Just confirm your email to start trading:</p>
+        
+        <p style="text-align: center; margin: 30px 0;">
+            <%= link_to "✅ Confirm Email & Start Trading", 
+                confirmation_url(@resource, confirmation_token: @token), 
+                class: "button button-green" %>
+        </p>
+        
+        <p class="link-text">
+            Link: <%= confirmation_url(@resource, confirmation_token: @token) %>
+        </p>
 
-<p>You can confirm your account email through the link below:</p>
-
-<p><%= link_to 'Confirm my account', confirmation_url(@resource, confirmation_token: @token) %></p>
+    <% else %>
+        <div class="header header-blue">
+            <h1>📈 Welcome to Stock Trading!</h1>
+            <span class="badge badge-signup">NEW SIGNUP</span>
+        </div>
+        
+        <p>Hi <%= @resource.first_name %>!</p>
+        <p>Thanks for joining! First, let's confirm your email:</p>
+        
+        <p style="text-align: center; margin: 30px 0;">
+            <%= link_to "🔐 Confirm My Email", 
+                confirmation_url(@resource, confirmation_token: @token), 
+                class: "button button-blue" %>
+        </p>
+        
+        <div class="steps">
+            <strong>What's next:</strong>
+            <ol style="margin: 10px 0 0 0;">
+                <li>Confirm email ← You are here</li>
+                <li>Admin approval</li>
+                <li>Start trading! 🎯</li>
+            </ol>
+        </div>
+        
+        <p class="link-text">
+            Link: <%= confirmation_url(@resource, confirmation_token: @token) %>
+        </p>
+    <% end %>
+</body>
+</html>
