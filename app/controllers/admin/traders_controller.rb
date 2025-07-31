@@ -1,5 +1,5 @@
 class Admin::TradersController < Admin::ApplicationController
-  before_action :set_trader, only: [ :show, :edit, :update, :destroy, :approve, :reject ]
+  before_action :set_trader, only: [ :show, :edit, :update, :approve, :reject ]
 
   # Admin Story 4: See all traders
   def index
@@ -44,11 +44,6 @@ class Admin::TradersController < Admin::ApplicationController
     else
       render :edit, status: :unprocessable_entity
     end
-  end
-
-  def destroy
-    @trader.destroy
-    redirect_to admin_traders_path, notice: "Trader was successfully deleted."
   end
 
   # Admin Story 6: Approve and Reject Traders

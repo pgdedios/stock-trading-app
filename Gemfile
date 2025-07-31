@@ -73,6 +73,7 @@ gem "ransack", "~> 4.3"
 
 group :development, :test do
   gem "rspec-rails", "~> 8.0.0"
+  gem "rails-controller-testing"
 end
 
 group :development, :test do

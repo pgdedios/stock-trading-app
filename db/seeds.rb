@@ -10,15 +10,5 @@
 
 # User.destroy_all - use only to reset all users in the User Table
 
-admin = User.create!(
-  first_name: "Admin",
-  last_name: "User",
-  email: "admin@stockapp.com",
-  password: "password123",
-  password_confirmation: "password123",
-  balance: 0,
-  is_admin: true,
-  is_approve: true,
-  confirmed_at: Time.current,
-  created_by_admin: false
-)
+# db/seeds.rb
+# Seed data for Stock Trading App testing
