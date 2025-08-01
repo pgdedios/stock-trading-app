@@ -34,6 +34,7 @@ RSpec.describe Admin::ApplicationController, type: :controller do
         first_name: 'John',
         last_name: 'Doe',
         is_admin: false,
+        is_approve: true,
         confirmed_at: Time.current
       )
 
@@ -55,14 +56,38 @@ RSpec.describe Admin::ApplicationController, type: :controller do
         first_name: 'Admin',
         last_name: 'User',
         is_admin: true,
+        is_approve: true,
         confirmed_at: Time.current
       )
 
       sign_in admin_user
       get :index
 
-      # Admin should have access (may redirect to admin dashboard, which is fine)
+      # Admin should have access
+      expect(response).to redirect_to(admin_root_path)
       expect(response).to have_http_status(:redirect)
+    end
+  end
+
+  # Test behavior when a non-approved user tries to login
+  describe 'when non-approved user is logged in' do
+    it 'redirects to home page with message indicating pending approval' do
+      # Create a regular user without admin privileges
+      regular_user = User.create!(
+        email: 'user@test.com',
+        password: 'password123',
+        first_name: 'John',
+        last_name: 'Doe',
+        is_admin: false,
+        is_approve: false,
+        confirmed_at: Time.current
+      )
+
+      sign_in regular_user
+      get :index
+
+      expect(response).to redirect_to(new_user_session_path)
+      expect(flash[:alert]).to eq('Your account is pending admin approval.')
     end
   end
 end

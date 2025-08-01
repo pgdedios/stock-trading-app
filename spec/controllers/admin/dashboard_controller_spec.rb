@@ -11,6 +11,7 @@ RSpec.describe Admin::DashboardController, type: :controller do
       first_name: 'Admin',
       last_name: 'User',
       is_admin: true,
+      is_approve: true,
       confirmed_at: Time.current
     )
     sign_in @admin_user
