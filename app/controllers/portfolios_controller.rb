@@ -9,7 +9,7 @@ class PortfoliosController < ApplicationController
 
   def show
     @portfolio = current_user.portfolios.find(params[:id])
-    @transactions = Transaction.for_stock(@portfolio.stock_symbol) # All transactions related to this stock
+    @transactions = current_user.transactions.for_stock(@portfolio.stock_symbol) # All transactions related to this stock
   end
 
   private

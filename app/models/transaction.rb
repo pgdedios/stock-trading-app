@@ -13,6 +13,7 @@ class Transaction < ApplicationRecord
   scope :buy_orders, -> { where(transaction_type: "buy") }
   scope :sell_orders, -> { where(transaction_type: "sell") }
   scope :recent, -> { order(created_at: :desc) }
+  scope :for_stock, ->(symbol) { where(stock_symbol: symbol) }
 
   # Ransack configuration - Define which attributes can be searched
   def self.ransackable_attributes(auth_object = nil)
