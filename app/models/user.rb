@@ -6,7 +6,6 @@ class User < ApplicationRecord
          :confirmable
 
   attribute :balance, default: 50000
-
   has_many :transactions
   has_many :portfolios
 
@@ -46,18 +45,6 @@ class User < ApplicationRecord
     transactions.where(transaction_type: "sell").count
   end
 
-  def total_invested
-    transactions.where(transaction_type: "buy").sum(:total_amount)
-  end
-
-  def total_earnings
-    transactions.where(transaction_type: "sell").sum(:total_amount)
-  end
-
-  def net_profit_loss
-    total_earnings - total_invested
-  end
-
   def can_trade?
     is_approve? && confirmed_at.present?
   end
@@ -68,23 +55,11 @@ class User < ApplicationRecord
     "Email Not Confirmed"
   end
 
-  def full_name_with_email
-    "#{first_name} #{last_name} (#{email})"
+  def send_approval_notification
+    TraderMailer.approval_notification(self).deliver_now
   end
 
-  def active_for_authentication?
-    super && is_approve?
-  end
-
-  def inactive_message
-    if !is_approve? && !confirmed?
-      :unconfirmed
-    elsif !confirmed?
-      :unconfirmed
-    elsif !is_approve?
-      :not_approved
-    else
-      super
-    end
+  def send_rejection_notification
+    TraderMailer.rejection_notification(self).deliver_now
   end
 end

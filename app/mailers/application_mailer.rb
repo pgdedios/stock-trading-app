@@ -1,4 +1,4 @@
 class ApplicationMailer < ActionMailer::Base
-  default from: "stocktradingapp.avion39@gmail.com"
+  default from: "noreply@stocktradingapp.com"
   layout "mailer"
 end

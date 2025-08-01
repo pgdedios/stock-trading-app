@@ -1,0 +1,24 @@
+<div class="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+  <div class="sm:mx-auto sm:w-full sm:max-w-md">
+    <div class="text-center">
+      <!-- Admin branding -->
+      <div class="mb-4">
+        <h1 class="text-2xl font-bold text-gray-900 mb-2">🛠️ Admin Panel</h1>
+        <div class="inline-block bg-red-100 text-red-800 px-3 py-1 rounded-full text-sm font-medium mb-4">
+          Access Error
+        </div>
+      </div>
+      
+      <h2 class="text-6xl font-bold text-gray-300 mb-4">404</h2>
+      <h3 class="text-2xl font-bold text-gray-900 mb-2">Admin Page Not Found</h3>
+      <p class="text-gray-600 mb-8">
+        The admin resource you're looking for doesn't exist or you don't have permission to access it.
+      </p>
+      
+      <div class="space-y-3">
+        <%= link_to "← Back to Admin Dashboard", admin_root_path, 
+            class: "inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700" %>
+      </div>
+    </div>
+  </div>
+</div>

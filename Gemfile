@@ -56,21 +56,28 @@ group :test do
   gem "selenium-webdriver"
 end
 
+# Authentication & Authorization
 gem "devise", "~> 4.9"
 
-# For dotenv-rails >> To save confidential information on a different file and prevent it to be uploaded in the github
-group :development, :test do
-  gem "dotenv-rails"
-end
-
-gem "tailwindcss-ruby", "~> 4.1"
-
-gem "tailwindcss-rails", "~> 4.3"
-
-gem "rubocop", require: false
-
+# Search
 gem "ransack", "~> 4.3"
 
+# Frontend & UI
+gem "tailwindcss-ruby", "~> 4.1"
+gem "tailwindcss-rails", "~> 4.3"
+
 group :development, :test do
+  # Testing
   gem "rspec-rails", "~> 8.0.0"
+
+  # Environment & Configuration
+  gem "dotenv-rails"
+
+  # Code Quality
+  gem "rubocop", require: false
+
+  # Email Testing
+  gem "letter_opener", "~> 1.10"
+
+  gem "rails-controller-testing"
 end

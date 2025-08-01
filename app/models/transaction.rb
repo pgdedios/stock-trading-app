@@ -5,6 +5,7 @@ class Transaction < ApplicationRecord
 
   validates :company_name, :stock_symbol, :quantity, :price_at_time, :total_amount, presence: true
   validates :quantity, numericality: { greater_than_or_equal_to: 0 }
+
   attribute :quantity, default: 0
 
   # Scopes
@@ -12,9 +13,6 @@ class Transaction < ApplicationRecord
   scope :buy_orders, -> { where(transaction_type: "buy") }
   scope :sell_orders, -> { where(transaction_type: "sell") }
   scope :recent, -> { order(created_at: :desc) }
-  scope :for_stock, ->(symbol) { where(stock_symbol: symbol) }
-  scope :for_trader, ->(trader_id) { where(user_id: trader_id) }
-  scope :between_dates, ->(start_date, end_date) { where(created_at: start_date..end_date) }
 
   # Ransack configuration - Define which attributes can be searched
   def self.ransackable_attributes(auth_object = nil)
@@ -26,20 +24,6 @@ class Transaction < ApplicationRecord
     # Allow searching through user association (for trader info)
     [ "user" ]
   end
-
-  def buy?
-    transaction_type == "buy"
-  end
-
-  def sell?
-    transaction_type == "sell"
-  end
-
-  def profit_indicator
-    buy? ? "+" : "-"
-  end
-
-  attribute :quantity, default: 0
 
   private
 
