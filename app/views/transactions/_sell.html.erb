@@ -1,0 +1,96 @@
+<!-- Main Content -->
+<div class="flex flex-col items-center justify-center mt-15 px-4">
+  <div class="w-full max-w-xl px-1 mb-3 flex italic justify-between">
+    <%= link_to "<< Back to Transactions", transactions_path, class: "text-gray-600 hover:text-blue-700 text-sm font-medium" %>
+    <%= link_to "Buy Stocks >>", new_transaction_path(type: "buy"), class: "text-gray-600 hover:text-green-700 text-sm font-medium" %>
+  </div>
+  <div class="w-full max-w-xl bg-white p-6 rounded-lg shadow-md">
+    <h1 class="text-2xl font-bold mb-6 text-center">Sell Stock</h1>
+    <%= form_with model: @transaction, url: transactions_path, local: true, data: { controller: "stock" } do |form| %>
+      <div class="space-y-5">
+
+        <!-- Error Messages -->
+        <% if @transaction.errors.any? %>
+          <div class="p-4 mb-6 rounded-lg border border-red-300 bg-red-50 text-red-800 shadow-sm">
+            <h2 class="text-base font-semibold text-red-700 flex items-center">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-1.5 pr">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
+              </svg>
+              Please fix the following errors:
+            </h2>
+            <ul class="mt-2 list-disc list-inside text-sm space-y-1 pl-1">
+              <% @transaction.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
+
+        <!-- Company Select -->
+        <div>
+          <%= form.label :company_name, "Select Company", class: "block text-sm font-medium text-gray-700 mb-1" %>
+          <div class="relative">
+            <%= select_tag :company_select,
+              options_for_select([["", ""]] + @companies.map { |c| ["#{c["company_name"]} (#{c["stock_symbol"]})", c.to_json] }),
+              data: {
+                action: "change->stock#fetchPrice",
+                stock_target: "company"
+              },
+              class: "w-full px-4 py-2.5 pr-8 border border-gray-300 rounded-lg bg-white shadow-sm appearance-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer"
+            %>
+
+            <!-- Custom Dropdown Arrow -->
+            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-gray-600">
+              <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <!-- Hidden Fields -->
+        <%= form.hidden_field :company_name, data: { stock_target: "companyName" } %>
+        <%= form.hidden_field :stock_symbol, data: { stock_target: "ticker" } %>
+        <%= form.hidden_field :transaction_type, value: "sell" %>
+
+        <!-- Stock Price -->
+        <div>
+          <%= form.label :price_at_time, "Stock Price", class: "block text-sm font-medium text-gray-700 mb-1" %>
+          <div class="flex items-center">
+            <span class="px-4 py-2.5 bg-gray-100 border border-gray-300 border-r-0 rounded-l-lg text-gray-700 font-medium">$</span>
+            <%= form.number_field :price_at_time, step: 0.01, readonly: true,
+              data: { stock_target: "stockPrice" },
+              class: "w-full flex-1 px-4 py-2.5 rounded-r-lg border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-gray-50 text-gray-800"
+            %>
+          </div>
+        </div>
+
+        <!-- Quantity -->
+        <div>
+          <%= form.label :quantity, "Quantity", class: "block text-sm font-medium text-gray-700 mb-1" %>
+          <%= form.number_field :quantity,
+            data: { action: "input->stock#calculateTotal", stock_target: "quantity" },
+            class: "w-full px-4 py-2.5 rounded-lg border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          %>
+        </div>
+
+        <!-- Total Amount -->
+        <div>
+          <%= form.label :total_amount, "Total Amount", class: "block text-sm font-medium text-gray-700 mb-1" %>
+          <div class="flex items-center">
+            <span class="px-4 py-2.5 bg-gray-100 border border-gray-300 border-r-0 rounded-l-lg text-gray-700 font-medium">$</span>
+            <%= form.number_field :total_amount, step: 0.01, readonly: true,
+              data: { stock_target: "totalAmount" },
+              class: "flex-1 px-4 py-2.5 rounded-r-lg border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-gray-50 text-gray-800"
+            %>
+          </div>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="pt-4 flex justify-center">
+          <%= form.submit "Sell Stock", class: "max-w-3xl py-3 px-6 bg-red-600 hover:bg-red-700 active:bg-red-800 text-white font-semibold rounded-3xl shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition duration-200 ease-in-out transform hover:-translate-y-0.5 active:-translate-y-0.5 cursor-pointer" %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

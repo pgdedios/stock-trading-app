@@ -1,17 +1,44 @@
 class TransactionsController < ApplicationController
   before_action :authenticate_user!
+  rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
+
   def index
-    @transactions = current_user.transactions.order(created_at: :desc)
+    @q = current_user.transactions.ransack(params[:q])
+    @transactions = @q.result(distinct: true).order(created_at: :desc)
   end
 
-  def buy
+  def new
     @transaction = Transaction.new
-    @companies = JSON.parse(File.read(Rails.root.join("lib/assets/data/companies.json")))
+    @type = params[:type] || "buy"
+
+    if @type == "sell"
+      @companies = current_user.portfolios.map(&:attributes)
+    else
+      @companies = JSON.parse(File.read(Rails.root.join("lib/assets/data/companies.json")))
+    end
   end
 
-  def sell
-    @transaction = Transaction.new
-    @companies = current_user.portfolios.map(&:attributes)
+
+
+  def create
+    @transaction = current_user.transactions.build(transaction_params)
+
+    if @transaction.save
+      redirect_to transactions_path, notice: "Transaction completed!"
+    else
+      flash[:alert] = "Transaction failed."
+      if transaction_params[:transaction_type] == "buy"
+        @companies = JSON.parse(File.read(Rails.root.join("lib/assets/data/companies.json")))
+        render :new, status: :unprocessable_entity
+      else
+        @companies = current_user.portfolios.map(&:attributes)
+        render :new, status: :unprocessable_entity
+      end
+    end
+  end
+
+  def show
+    @transaction = current_user.transactions.find(params[:id])
   end
 
   def fetch_price
@@ -25,30 +52,13 @@ class TransactionsController < ApplicationController
     end
   end
 
-  def create
-    @transaction = current_user.transactions.build(transaction_params)
-
-    if @transaction.save
-      redirect_to portfolios_path, notice: "Transaction completed!"
-    else
-      flash[:alert] = "Transaction failed."
-      if transaction_params[:transaction_type] == "buy"
-        @companies = JSON.parse(File.read(Rails.root.join("lib/assets/data/companies.json")))
-        render :buy, status: :unprocessable_entity
-      else
-        @companies = current_user.portfolios.map(&:attributes)
-        render :sell, status: :unprocessable_entity
-      end
-    end
-  end
-
-  def show
-    @transaction = current_user.transactions.find(params[:id])
-  end
-
   private
 
   def transaction_params
-  params.require(:transaction).permit(:company_name, :stock_symbol, :price_at_time, :quantity, :total_amount, :transaction_type)
+    params.require(:transaction).permit(:company_name, :stock_symbol, :price_at_time, :quantity, :total_amount, :transaction_type)
+  end
+
+  def record_not_found
+    redirect_to transactions_path, alert: "Transaction does not exist."
   end
 end

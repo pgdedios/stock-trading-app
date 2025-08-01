@@ -1,6 +1,75 @@
-<%= render "shared/navbar" %>
+<div class="min-h-screen bg-gray-100">
+  <!-- Sticky Navbar -->
+  <div class="sticky top-0 z-50 bg-white shadow-md">
+    <%= render "shared/navbar" %>
+  </div>
 
-<div>
-  <h1 class="font-bold text-4xl">Portfolios#show</h1>
-  <p>Find me in app/views/portfolios/show.html.erb</p>
+  <!--Main Content-->
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="mb-8">
+      <div class="flex justify-between items-start">
+        <div>
+          <h1 class="text-3xl font-bold text-gray-900">Stock Details</h1>
+          <p class="mt-2 text-gray-600">Portfolio ID: #<%= @portfolio.id %></p>
+        </div>
+        <%= link_to "Back to Portfolios", portfolios_path, 
+            class: "inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50" %>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 gap-8 mb-8">
+      <!-- Portfolio Information -->
+      <div class="bg-white rounded-lg shadow">
+        <div class="px-6 py-4 border-b border-gray-200">
+          <h3 class="text-lg font-semibold text-gray-900">Stock Information</h3>
+        </div>
+        <div class="p-6 space-y-4">
+          <div class="flex justify-between items-center">
+            <span class="text-sm font-medium text-gray-500">Stock Symbol</span>
+            <span class="text-sm font-bold text-gray-900"><%= @portfolio.stock_symbol %></span>
+          </div>
+          
+          <div class="flex justify-between items-center">
+            <span class="text-sm font-medium text-gray-500">Company Name</span>
+            <span class="text-sm text-gray-900"><%= @portfolio.company_name %></span>
+          </div>
+          
+          <div class="flex justify-between items-center">
+            <span class="text-sm font-medium text-gray-500">Quantity</span>
+            <span class="text-sm text-gray-900"><%= @portfolio.quantity %> shares</span>
+          </div>
+          
+          <div class="flex justify-between items-center">
+            <span class="text-sm font-medium text-gray-500">Price per Share</span>
+            <span class="text-sm text-gray-900"><%= number_to_currency(@portfolio.current_price) %></span>
+          </div>
+          
+          <div class="flex justify-between items-center pt-4 border-t border-gray-200">
+            <span class="text-base font-semibold text-gray-700">Total Amount</span>
+            <span class="text-base font-bold text-gray-900"><%= number_to_currency(@portfolio.total_amount) %></span>
+          </div>
+          
+          <div class="flex justify-between items-center">
+            <span class="text-sm font-medium text-gray-500">First Acquired Date</span>
+            <span class="text-sm text-gray-900"><%= @portfolio.created_at.strftime("%B %d, %Y at %I:%M %p") %></span>
+          </div>
+
+          <div class="flex justify-between items-center">
+            <span class="text-sm font-medium text-gray-500">Last Acquired Date</span>
+            <span class="text-sm text-gray-900"><%= @portfolio.updated_at.strftime("%B %d, %Y at %I:%M %p") %></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+     <!--Related Transactions -->
+    <div class="mb-8 bg-white rounded-lg shadow overflow-hidden">
+      <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
+        <h2 class="text-lg font-semibold text-gray-900">Related Transactions</h2>
+      </div>
+      <div class="overflow-x-auto">
+        <%= render "transactions/transactions", locals: { transactions: @recent_transactions } %>
+      </div>
+    </div>
+  </div>
 </div>

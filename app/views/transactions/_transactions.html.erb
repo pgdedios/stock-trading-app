@@ -1,41 +1,41 @@
 <table class="table-auto border-collapse min-w-full divide-y divide-gray-200">
   <thead class="bg-gray-50 sticky top-0 z-10">
     <tr>
-      <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Company Name</th>
-      <!--<th class="hidden md:table-cell px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Symbol</th>-->
-      <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Transaction Type</th>
-      <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Quantity</th>
-      <th class="hidden md:table-cell px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Price</th>
-      <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Total</th>
-      <th class="hidden md:table-cell px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Company</th>
+      <th class="hidden md:table-cell px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Symbol</th>
+      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type</th>
+      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Quantity</th>
+      <th class="hidden md:table-cell px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Price</th>
+      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total</th>
+      <th class="hidden md:table-cell px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
     </tr>
   </thead>
   <tbody class="bg-white divide-y divide-gray-200 border-b border-gray-200">
-    <% if @transactions.empty? %>
-      <tr>
-        <td colspan="7" class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-center">No available data.</td>
-      </tr>
-    <% else %>
+    <% if @transactions.any? %>
       <% @transactions.each do |transaction| %>
         <tr class="hover:bg-gray-50">
           <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-left">
             <div>
-                <p class="text-sm font-medium text-gray-900"><%= link_to transaction.stock_symbol, transaction_path(transaction), title: "See transaction details." %></p>
-                <p class="text-xs text-gray-500"><%= link_to transaction.company_name, transaction_path(transaction), title: "See transaction details." %></p>
+                <!--<p class="text-sm font-medium text-gray-900"><%#= link_to transaction.stock_symbol, transaction_path(transaction), title: "See transaction details." %></p>-->
+                <p class="text-sm font-medium text-gray-900"><%= link_to transaction.company_name, transaction_path(transaction), title: "See transaction details." %></p>
             </div>
           </td>
-          <!--<td class="hidden md:table-cell px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-center"><%#= link_to transaction.stock_symbol, transaction_path(transaction), title: "See transaction details." %></td>-->
-          <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-center capitalize">
+          <td class="hidden md:table-cell px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-left"><%= link_to transaction.stock_symbol, transaction_path(transaction), title: "See transaction details." %></td>
+          <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-left capitalize">
             <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full <%= transaction.transaction_type == 'buy' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' %>">
               <%= link_to transaction.transaction_type, transaction_path(transaction), title: "See transaction details." %>
             </span>
           </td>
-          <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-center"><%= link_to transaction.quantity, transaction_path(transaction), title: "See transaction details." %></td>
-          <td class="hidden md:table-cell px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-center"><%= link_to number_to_currency(transaction.price_at_time), transaction_path(transaction), title: "See transaction details." %></td>
-          <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-center"><%= link_to number_to_currency(transaction.total_amount), transaction_path(transaction), title: "See transaction details." %></td>
-          <td class="hidden md:table-cell px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center"><%= link_to transaction.created_at.localtime.strftime("%d %b %Y, %I:%M %p"), transaction_path(transaction), title: "See transaction details." %></td>
+          <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-left"><%= link_to transaction.quantity, transaction_path(transaction), title: "See transaction details." %></td>
+          <td class="hidden md:table-cell px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-left"><%= link_to number_to_currency(transaction.price_at_time), transaction_path(transaction), title: "See transaction details." %></td>
+          <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-left"><%= link_to number_to_currency(transaction.total_amount), transaction_path(transaction), title: "See transaction details." %></td>
+          <td class="hidden md:table-cell px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-left"><%= link_to transaction.created_at.localtime.strftime("%d %b %Y, %I:%M %p"), transaction_path(transaction), title: "See transaction details." %></td>
         </tr>
       <% end %>
+    <% else %>
+      <tr>
+        <td colspan="7" class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-center">No available transactions.</td>
+      </tr>
     <% end %>
   </tbody>
 </table>

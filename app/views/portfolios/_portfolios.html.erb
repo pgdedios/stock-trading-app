@@ -4,24 +4,25 @@
       <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Company Name</th>
       <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Symbol</th>
       <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Quantity</th>
-      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Updated</th>
+      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total Amount</th>
+      <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Last Acquired</th>
     </tr>
   </thead>
   <tbody class="bg-white divide-y divide-gray-200 border-b border-gray-200">
-    <% if @portfolios.empty? %>
-      <tr>
-        <td colspan="5" class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-center">No available data.</td>
-      </tr>
+    <% if @portfolios.any? %>
+      <% @portfolios.each do |portfolio| %>
+        <tr class="hover:bg-gray-100">
+          <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-left"><%= link_to portfolio.company_name, portfolio_path(portfolio), title: "See stock details." %></td>
+          <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-left"><%= link_to portfolio.stock_symbol, portfolio_path(portfolio), title: "See stock details." %></td>
+          <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-left"><%= link_to portfolio.quantity, portfolio_path(portfolio), title: "See stock details." %></td>
+          <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-left"><%= link_to number_to_currency(portfolio.total_amount), portfolio_path(portfolio), title: "See stock details." %></td>
+          <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-left"><%= link_to "#{time_ago_in_words(portfolio.updated_at.localtime)} ago", portfolio_path(portfolio), title: "See stock details." %></td>
+        </tr>
+      <% end %>
     <% else %>
-        <% @portfolios.each do |portfolio| %>
-          <tr class="hover:bg-gray-100">
-            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-left"><%= link_to portfolio.company_name, portfolio_path(portfolio), title: "See shares details." %></td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-left"><%= link_to portfolio.stock_symbol, portfolio_path(portfolio), title: "See shares details." %></td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-left"><%= link_to portfolio.quantity, portfolio_path(portfolio), title: "See shares details." %></td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-left"><%= link_to "#{time_ago_in_words(portfolio.updated_at.localtime)} ago", portfolio_path(portfolio), title: "See shares details." %></td>
-          </tr>
-        <% end %>
-      </tbody>
+      <tr>
+        <td colspan="5" class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-center">No available stocks.</td>
+      </tr>
     <% end %>
   </tbody>
 </table>

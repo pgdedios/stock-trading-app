@@ -1,0 +1,13 @@
+<div class="min-h-screen bg-gray-100">
+  <!-- Sticky Navbar -->
+  <div class="sticky top-0 z-50 shadow-md">
+    <%= render "shared/navbar" %>
+  </div>
+  
+  <!-- Buy or Sell-->
+  <% if @type == "buy" %>
+    <%= render "buy" %>
+  <% else %>
+    <%= render "sell" %>
+  <%end%>
+</div>
