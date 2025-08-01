@@ -26,7 +26,6 @@ class Admin::TradersController < Admin::ApplicationController
 
   def create
     @trader = build_new_trader
-
     if @trader.save
       redirect_to admin_trader_path(@trader), notice: "Trader was successfully created."
     else
@@ -35,8 +34,7 @@ class Admin::TradersController < Admin::ApplicationController
   end
 
   # Admin Story 2: Edit Existing Traders
-  def edit
-  end
+  def edit; end
 
   def update
     if @trader.update(trader_params_for_update)
@@ -77,7 +75,6 @@ class Admin::TradersController < Admin::ApplicationController
 
   def trader_params_for_update
     permitted_params = params.require(:user).permit(:first_name, :last_name, :email, :password, :password_confirmation, :balance)
-
     # Remove password fields if they're blank (to keep existing password)
     if permitted_params[:password].blank?
       permitted_params.delete(:password)

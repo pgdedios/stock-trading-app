@@ -12,6 +12,19 @@ module Admin::ApplicationHelper
     trader.persisted? ? admin_trader_path(trader) : admin_traders_path
   end
 
+  # User display helpers
+  def full_name_with_email(user)
+    "#{user.first_name} #{user.last_name} (#{user.email})"
+  end
+
+  def full_name(user)
+    "#{user.first_name} #{user.last_name}".strip
+  end
+
+  def user_initials(user)
+    "#{user.first_name.first}#{user.last_name.first}".upcase
+  end
+
   # Status helpers
   def trader_status_class(trader)
     if trader.can_trade?

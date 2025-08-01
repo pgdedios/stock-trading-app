@@ -45,18 +45,6 @@ class User < ApplicationRecord
     transactions.where(transaction_type: "sell").count
   end
 
-  def total_invested
-    transactions.where(transaction_type: "buy").sum(:total_amount)
-  end
-
-  def total_earnings
-    transactions.where(transaction_type: "sell").sum(:total_amount)
-  end
-
-  def net_profit_loss
-    total_earnings - total_invested
-  end
-
   def can_trade?
     is_approve? && confirmed_at.present?
   end
@@ -65,10 +53,6 @@ class User < ApplicationRecord
     return "Ready to Trade" if can_trade?
     return "Awaiting Approval" if confirmed_at.present?
     "Email Not Confirmed"
-  end
-
-  def full_name_with_email
-    "#{first_name} #{last_name} (#{email})"
   end
 
   def send_approval_notification
