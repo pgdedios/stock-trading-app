@@ -16,7 +16,7 @@
           <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-left"><%= link_to portfolio.stock_symbol, portfolio_path(portfolio), title: "See stock details." %></td>
           <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-left"><%= link_to portfolio.quantity, portfolio_path(portfolio), title: "See stock details." %></td>
           <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-left"><%= link_to number_to_currency(portfolio.total_amount), portfolio_path(portfolio), title: "See stock details." %></td>
-          <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-left"><%= link_to "#{time_ago_in_words(portfolio.updated_at.localtime)} ago", portfolio_path(portfolio), title: "See stock details." %></td>
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-left"><%= link_to "#{time_ago_in_words(portfolio.updated_at.localtime)} ago", portfolio_path(portfolio), title: "See stock details." %></td>
         </tr>
       <% end %>
     <% else %>
