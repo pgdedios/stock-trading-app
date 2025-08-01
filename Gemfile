@@ -69,13 +69,15 @@ gem "tailwindcss-rails", "~> 4.3"
 group :development, :test do
   # Testing
   gem "rspec-rails", "~> 8.0.0"
-  
+
   # Environment & Configuration
   gem "dotenv-rails"
-  
+
   # Code Quality
   gem "rubocop", require: false
-  
+
   # Email Testing
   gem "letter_opener", "~> 1.10"
+
+  gem "rails-controller-testing"
 end
