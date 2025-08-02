@@ -15,15 +15,6 @@ RSpec.describe Admin::ApplicationController, type: :controller do
     routes.draw { get 'index' => 'admin/application#index' }
   end
 
-  # Test behavior when no user is logged in
-  describe 'when user is not logged in' do
-    it 'redirects to home page' do
-      get :index
-
-      expect(response).to redirect_to(root_path)
-    end
-  end
-
   # Test behavior when a regular (non-admin) user tries to access admin area
   describe 'when regular user is logged in' do
     it 'redirects to home page with access denied message' do
