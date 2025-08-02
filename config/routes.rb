@@ -15,9 +15,9 @@ Rails.application.routes.draw do
 
   get "/dashboard", to: "pages#index"
 
-  resources :portfolios, only: [:index, :show]
+  resources :portfolios, only: [ :index, :show ]
 
-  resources :transactions, only: [:index, :new, :create, :show] do
+  resources :transactions, only: [ :index, :new, :create, :show ] do
     collection do
       get :fetch_price
     end

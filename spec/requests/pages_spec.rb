@@ -7,17 +7,16 @@ RSpec.describe "Pages", type: :request do
     sign_in user
   end
 
-  describe "GET /dashboard" do
+  describe "GET /pages or /dashboard" do
     it "shows dashboard" do
       get root_path
       expect(response).to have_http_status(:success)
     end
-  end
 
-  describe "GET /dashboard" do
-    it "returns to dashboard" do
-      get root_path
-      expect(response).to have_http_status(:success)
-    end
+  it "shows not found page" do
+    get "/this-route-does-not-exist"
+    expect(response).to have_http_status(:success)
+    expect(response).to render_template("pages/not_found")
+  end
   end
 end
