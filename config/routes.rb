@@ -14,19 +14,14 @@ Rails.application.routes.draw do
   root "pages#index"
 
   get "/dashboard", to: "pages#index"
-  get "/unconfirmed", to: "pages#unconfirmed"
-  get "/pending_approval", to: "pages#pending_approval"
-  get "/transactions/buy", to: "transactions#buy"
-  get "/transactions/sell", to: "transactions#sell"
 
-  resources :portfolios
-  resources :transactions do
+  resources :portfolios, only: [:index, :show]
+
+  resources :transactions, only: [:index, :new, :create, :show] do
     collection do
       get :fetch_price
     end
   end
-
-  match "*unmatched", to: "errors#not_found", via: :all
 
   # Admin namespace routes
   namespace :admin do
@@ -45,4 +40,7 @@ Rails.application.routes.draw do
 
     match "*path", to: "dashboard#not_found", via: :all
   end
+
+  # Global fallback for trader/user
+  match "*unmatched", to: "pages#not_found", via: :all
 end

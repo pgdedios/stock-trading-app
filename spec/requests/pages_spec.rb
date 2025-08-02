@@ -13,4 +13,11 @@ RSpec.describe "Pages", type: :request do
       expect(response).to have_http_status(:success)
     end
   end
+
+  describe "GET /dashboard" do
+    it "returns to dashboard" do
+      get root_path
+      expect(response).to have_http_status(:success)
+    end
+  end
 end
