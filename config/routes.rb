@@ -26,6 +26,8 @@ Rails.application.routes.draw do
     end
   end
 
+  match "*unmatched", to: "errors#not_found", via: :all
+
   # Admin namespace routes
   namespace :admin do
     root "dashboard#index"
