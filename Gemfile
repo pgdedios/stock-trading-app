@@ -60,7 +60,7 @@ end
 gem "devise", "~> 4.9"
 
 # Search
-gem "ransack", "~> 4.3"
+gem "ransack", "~> 4.4"
 
 # Frontend & UI
 gem "tailwindcss-ruby", "~> 4.1"
