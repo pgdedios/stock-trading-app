@@ -6,7 +6,7 @@
   </div>
   <div class="w-full max-w-xl bg-white p-6 rounded-lg shadow-md">
     <h1 class="text-2xl font-bold mb-6 text-center">Buy Stock</h1>
-    <%= form_with model: @transaction, url: transactions_path, local: true, data: { controller: "stock" } do |form| %>
+    <%= form_with model: @transaction, url: transactions_path, local: true, data: { controller: "stock", stock_balance_value: current_user.balance } do |form| %>
       <div class="space-y-5">
 
         <!-- Error Messages -->
@@ -84,6 +84,9 @@
               class: "flex-1 px-4 py-2.5 rounded-r-lg border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-gray-50 text-gray-800"
             %>
           </div>
+          <p class="mt-1.5 text-sm text-green-600 font-medium">
+            Current Balance: <%= number_to_currency(current_user.balance) %>
+          </p>
         </div>
 
         <!-- Submit Button -->
