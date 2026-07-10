@@ -7,9 +7,17 @@
   <!-- Main Content -->
   <div class="max-w-7xl mx-auto px-4 py-8">
     <!-- Dashboard Header -->
-    <%= render 'shared/page_header', 
+    <div class="flex items-center justify-between">
+      <%= render 'shared/page_header', 
         title: 'Dashboard', 
         subtitle: 'Overview of your account' %>
+
+      <!-- Action Buttons (Buy/Sell) -->
+      <div class="space-x-4 mb-6">
+        <%= link_to 'Buy Stocks', new_transaction_path(type: "buy"), class: "bg-green-700 text-white text-sm px-4 py-3 rounded-3xl hover:bg-green-800 active:bg-white active:text-green-800 active:border active:border-green-800" %>
+        <%= link_to 'Sell Stocks', new_transaction_path(type: "sell"), class: "bg-red-600 text-white text-sm px-4 py-3 rounded-3xl hover:bg-red-700 active:bg-white active:text-red-700 active:border active:border-red-700" %>
+      </div>
+    </div>
 
     <!-- Stats Cards -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">

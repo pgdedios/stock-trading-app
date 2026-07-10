@@ -4,7 +4,7 @@ class Transaction < ApplicationRecord
   after_create :process_transaction
 
   validates :company_name, :stock_symbol, :quantity, :price_at_time, :total_amount, presence: true
-  validates :quantity, numericality: { greater_than_or_equal_to: 0 }
+  validates :quantity, numericality: { greater_than: 0 }
 
   attribute :quantity, default: 0
 
