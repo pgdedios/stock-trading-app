@@ -68,7 +68,7 @@ gem "tailwindcss-rails", "~> 4.3"
 
 group :development, :test do
   # Testing
-  gem "rspec-rails", "~> 8.0.0"
+  gem "rspec-rails", "~> 8.0.2"
 
   # Environment & Configuration
   gem "dotenv-rails"
